@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Live-Demo</title>
+	<!-- 引入 WebSDK -->
+	<script src="http://cdn.ronghub.com/RongIMLib-2.3.0.js"></script>
+	<script src="web.js"></script>
+</head>
+<body>
+	<button onclick="connect()"> Connect </button>
+	<button onclick="getToken()"> getToken </button>
+	<script>
+		// App Server 地址
+		var serverUrl = 'http://localhost:8585/get_token';
+		var appkey = '8luwapkvucoil'
+		
+		var getToken = function(){
+			var config = {
+				serverUrl: serverUrl
+			};
+			RongIM.getToken(config, function(result){
+				console.log(result);
+			});
+		};
+
+		var connect = function(){
+			var callbacks = {
+				onConnected: function(){
+					console.log('连接成功了');
+				}
+			};
+			RongIM.getToken({
+				serverUrl: serverUrl
+			},function(result){
+				var token = result.token;
+				var config = {
+					appkey: appkey,
+					token: token
+				};
+				RongIM.connect(config, callbacks);
+			});
+		};
+	</script>
+</body>
+</html>
