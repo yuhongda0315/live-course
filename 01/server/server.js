@@ -17,9 +17,11 @@ app.all('*', (req, res, next) => {
     next();
 });
 
-app.get('/get_token', (req, res) => {
+app.get('/get_token/:id', (req, res) => {
+	var params = req.params || {};
+	var id = params.id || 'user_a';
 	var user = {
-		id: 'ujadk90ha',
+		id: id,
 		name: 'Maritn',
 		portrait: 'http://7xogjk.com1.z0.glb.clouddn.com/IuDkFprSQ1493563384017406982'
 	};
