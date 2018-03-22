@@ -6,10 +6,33 @@
 	<!-- 引入 WebSDK -->
 	<script src="http://cdn.ronghub.com/RongIMLib-2.3.0.js"></script>
 	<script src="web.js"></script>
+	<style>
+		.btns{
+			width: 300px;
+			margin: 0 auto;
+		}
+		.btns button{
+		    width: 300px;
+		    height: 100px;
+		    font-size: 30px;
+		    border: 1px solid #103A74;
+		    border-radius: 15px;
+		    margin: 40px;
+		    cursor: pointer;
+		    outline: none;
+		}	
+		.btns button:hover{
+			color: #FFF;
+			background-color: #103A74;
+			transition: 0.4s;
+		}
+	</style>
 </head>
 <body>
-	<button onclick="connect()"> Connect </button>
-	<button onclick="getToken()"> getToken </button>
+	<div class="btns">
+		<button onclick="connect()"> Connect </button>
+		<button onclick="getToken()"> getToken </button>
+	</div>
 	<script>
 		// App Server 地址
 		var serverUrl = 'http://localhost:8585/get_token';
@@ -27,7 +50,7 @@
 		var connect = function(){
 			var callbacks = {
 				onConnected: function(){
-					console.log('连接成功了');
+					console.log('连接成功');
 				}
 			};
 			RongIM.getToken({
