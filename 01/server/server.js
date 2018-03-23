@@ -35,5 +35,6 @@ app.get('/get_token/:id', (req, res) => {
 	});
 });
 
-app.listen(8585);
-console.log('listener port : 8585');
+var port = 8585;
+app.listen(port);
+console.log('listener port : %d', port);
