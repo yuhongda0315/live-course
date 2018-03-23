@@ -10,9 +10,10 @@
 
 @implementation HttpRequest
 
-+ (void)getToken:(void (^)(NSString *token))tokenHandler {
++ (void)getToken:(NSString *)userId tokenHandler:(void (^)(NSString *token))tokenHandler {
+    NSString *url = [NSString stringWithFormat:@"http://localhost:8585/get_token/%@", userId];
     NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8585/get_token"] cachePolicy:0 timeoutInterval:60.0f];
+    [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:0 timeoutInterval:60.0f];
     request.HTTPMethod = @"GET";
     NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession]
                                       dataTaskWithRequest:request

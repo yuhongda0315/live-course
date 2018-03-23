@@ -6,9 +6,6 @@
 //  Copyright © 2018 RongCloud. All rights reserved.
 //
 
-// 步骤-2，添加融云头文件
-#import <RongIMKit/RongIMKit.h>
-
 #import "ViewController.h"
 #import "HttpRequest.h"
 
@@ -29,29 +26,43 @@
     // Dispose of any resources that can be recreated.
 }
 
+// 步骤-6，实现代理方法
+- (void)onReceived:(RCMessage *)message
+              left:(int)nLeft
+            object:(id)object {
+    if ([message.content isMemberOfClass:[RCTextMessage class]]) {
+        RCTextMessage *testMessage = (RCTextMessage *)message.content;
+        NSLog(@"消息内容：%@", testMessage.content);
+    }
+    NSLog(@"还剩余的未接收的消息数：%d", nLeft);
+}
+
 - (IBAction)onInit:(id)sender {
     // 步骤-3，初始化 SDK
-    [[RCIM sharedRCIM] initWithAppKey:@"8luwapkvucoil"];
+    [[RCIMClient sharedRCIMClient] initWithAppKey:@"8brlm7ufrg9e3"];
+    
+    // 步骤-5，设置消息监听
+    [[RCIMClient sharedRCIMClient] setReceiveMessageDelegate:self object:nil];
 }
 
 - (IBAction)onConnect:(id)sender {
     // 步骤-4，登录
-    [HttpRequest getToken:^(NSString *token) {
-        NSLog(@"token = %@", token);
-        [[RCIM sharedRCIM] connectWithToken:token
-                                    success:^(NSString *userId) {
-                                        NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
-                                        //                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        //                                        ConversationListViewController *conList = ConversationListViewController.new;
-                                        //                                        [self.navigationController pushViewController:conList animated:YES];
-                                        //                                    });
-                                    } error:^(RCConnectErrorCode status) {
-                                        NSLog(@"登陆的错误码为:%ld", status);
-                                    } tokenIncorrect:^{
-                                        NSLog(@"token错误");
-                                    }];
+    [HttpRequest getToken:@"User_A" tokenHandler:^(NSString *token) {
+        [[RCIMClient sharedRCIMClient] connectWithToken:token
+                                                success:^(NSString *userId) {
+                                                    NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
+                                                } error:^(RCConnectErrorCode status) {
+                                                    NSLog(@"登陆的错误码为:%ld", status);
+                                                } tokenIncorrect:^{
+                                                    NSLog(@"token错误");
+                                                }];
     }];
+}
 
+// 步骤-7，发送消息
+- (IBAction)onSend:(id)sender {
+    RCTextMessage *msg = [RCTextMessage messageWithContent:@"asdf"];
+    [[RCIMClient sharedRCIMClient] sendMessage:ConversationType_PRIVATE targetId:@"User_B" content:msg pushContent:nil pushData:nil success:nil error:nil];
 }
 
 @end

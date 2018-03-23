@@ -10,6 +10,6 @@
 
 @interface HttpRequest : NSObject
 
-+ (void)getToken:(void (^)(NSString *token))tokenHandler;
++ (void)getToken:(NSString *)userId tokenHandler:(void (^)(NSString *token))tokenHandler;
 
 @end

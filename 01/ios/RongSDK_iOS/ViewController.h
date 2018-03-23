@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+// 步骤-2，添加融云头文件
+#import <RongIMKit/RongIMKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<RCIMClientReceiveMessageDelegate>
 
 
 @end

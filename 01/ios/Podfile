@@ -8,6 +8,5 @@ target 'RongSDK_iOS' do
   # Pods for RongSDK_iOS
   # 步骤-1，添加融云 SDK
     pod 'RongCloudIM/IMLib', '~> 2.8.27'
-    pod 'RongCloudIM/IMKit', '~> 2.8.27'
 
 end

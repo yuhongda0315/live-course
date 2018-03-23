@@ -3,8 +3,8 @@ var bodyParser = require('body-parser');
 var RongCloudSDK = require('rongcloud-sdk');
 
 var RongSDK = RongCloudSDK({
-    appkey: '8luwapkvucoil',
-    secret: 'y0icysjl4h3LWz'
+    appkey: '8brlm7ufrg9e3',
+    secret: '7oT89OelVovM'
 });
 
 var app = express()
