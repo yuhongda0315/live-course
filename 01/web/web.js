@@ -69,18 +69,36 @@ var RongIM = (function() {
 		});
 	}
 
-	var getToken = function(config, callback){
+	var getToken = function(config, callback) {
 		callback = callback || tools.callback;
 		// 获取 Token
-		var url = config.serverUrl;
+		var url = config.serverUrl + '/User_A';
 		tools.request({
 			url: url,
 			success: callback
 		});
 	};
 
+	var sendMessage = function(msg, callback) {
+		callback = callback || tools.callback;
+		var type = RongIMLib.ConversationType.PRIVATE;
+		var targetId = msg.targetId;
+		var content = msg.content;
+
+		msg = new RongIMLib.TextMessage({content: content});
+		RongIMClient.getInstance().sendMessage(type, targetId, msg, {
+			onSuccess: function(message) {
+				callback(message);
+			},
+			onError: function(errorCode, message) {
+				console.log('Sent failed:' + info);
+			}
+		});
+	};
+
 	return {
 		connect: connect,
-		getToken: getToken
+		getToken: getToken,
+		sendMessage: sendMessage
 	}
 })();

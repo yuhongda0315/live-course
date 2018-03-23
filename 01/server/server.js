@@ -19,7 +19,7 @@ app.all('*', (req, res, next) => {
 
 app.get('/get_token/:id', (req, res) => {
 	var params = req.params || {};
-	var id = params.id || 'user_a';
+	var id = params.id || 'User_A';
 	var user = {
 		id: id,
 		name: 'Maritn',

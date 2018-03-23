@@ -7,10 +7,7 @@
 	<script src="http://cdn.ronghub.com/RongIMLib-2.3.0.js"></script>
 	<script src="web.js"></script>
 	<style>
-		.btns{
-			width: 300px;
-			margin: 0 auto;
-		}
+		.btns{  }
 		.btns button{
 		    width: 300px;
 		    height: 100px;
@@ -26,17 +23,21 @@
 			background-color: #103A74;
 			transition: 0.4s;
 		}
+		#sendMsg{
+			visibility: hidden;
+		}
 	</style>
 </head>
 <body>
 	<div class="btns">
-		<button onclick="connect()"> Connect </button>
+		<button onclick="connect()"> connect </button>
 		<button onclick="getToken()"> getToken </button>
+		<button onclick="sendMessage()" id="sendMsg"> sendMessage </button>
 	</div>
 	<script>
 		// App Server 地址
 		var serverUrl = 'http://localhost:8585/get_token';
-		var appkey = '8luwapkvucoil'
+		var appkey = '8brlm7ufrg9e3'
 		
 		var getToken = function(){
 			var config = {
@@ -51,6 +52,13 @@
 			var callbacks = {
 				onConnected: function(){
 					console.log('连接成功');
+					var element = document.getElementById('sendMsg');
+					element.style = 'visibility: visible';
+				},
+				onReceived: function(message){
+					console.group('收到消息啦:');
+						console.log(message);
+					console.groupEnd();
 				}
 			};
 			RongIM.getToken({
@@ -62,6 +70,20 @@
 					token: token
 				};
 				RongIM.connect(config, callbacks);
+			});
+		};
+
+		var sendMessage = function(){
+			var content = 'HelloWorld : ' + Date.now();
+			var message = {
+				targetId: 'User_B',
+				content: content
+			};
+			RongIM.sendMessage(message, function(message){
+				console.group('Sent Successfully');
+					console.log(message);
+				console.groupEnd();
+
 			});
 		};
 	</script>
