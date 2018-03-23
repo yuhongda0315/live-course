@@ -45,8 +45,8 @@
     [[RCIMClient sharedRCIMClient] setReceiveMessageDelegate:self object:nil];
 }
 
+// 步骤-4，登录
 - (IBAction)onConnect:(id)sender {
-    // 步骤-4，登录
     [HttpRequest getToken:@"User_B" tokenHandler:^(NSString *token) {
         [[RCIMClient sharedRCIMClient] connectWithToken:token
                                                 success:^(NSString *userId) {
@@ -62,7 +62,10 @@
 // 步骤-7，发送消息
 - (IBAction)onSend:(id)sender {
     RCTextMessage *msg = [RCTextMessage messageWithContent:@"Hello User_A"];
-    [[RCIMClient sharedRCIMClient] sendMessage:ConversationType_PRIVATE targetId:@"User_A" content:msg pushContent:nil pushData:nil success:nil error:nil];
+    [[RCIMClient sharedRCIMClient] sendMessage:ConversationType_PRIVATE
+                                      targetId:@"User_A" content:msg
+                                   pushContent:nil pushData:nil
+                                       success:nil error:nil];
 }
 
 @end
