@@ -6,7 +6,7 @@ target 'RongSDK_iOS' do
   # use_frameworks!
 
   # Pods for RongSDK_iOS
-  # 步骤-1，添加融云 SDK
+  # 步骤-1，添加融云 SDK，根据您的需求，IMLib/IMKit 二选一即可。
     pod 'RongCloudIM/IMLib', '~> 2.8.27'
 
 end
