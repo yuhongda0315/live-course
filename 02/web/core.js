@@ -300,8 +300,11 @@ var connect = function(config, callback) {
 */
 var login = function(user, callback) {
 	callback = callback || tools.callback;
+
+	var search = location.search;
+	var userId = search.replace('?', '');
 	// 获取 Token
-	var url = 'http://127.0.0.1:8585/get_token/userA';
+	var url = 'http://127.0.0.1:8585/get_token/' + userId;
 	tools.request({
 		url: url,
 		success: function(result) {
