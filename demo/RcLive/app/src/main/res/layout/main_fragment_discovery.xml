@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ebebeb"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/discovery_stream_show"
+        layout="@layout/listitem_discovery"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="18dp"/>
+
+    <include
+        android:id="@+id/discovery_watch_show"
+        layout="@layout/listitem_discovery"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"/>
+</LinearLayout>

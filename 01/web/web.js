@@ -85,7 +85,12 @@ var RongIM = (function() {
 		var targetId = msg.targetId;
 		var content = msg.content;
 
-		msg = new RongIMLib.TextMessage({content: content});
+		var user = {
+			id: 'User_A',
+			name: 'Martin',
+			portrait: 'http://rongcloud.cn/avatar.jpg'
+		};
+		msg = new RongIMLib.TextMessage({content: content, user: user});
 		RongIMClient.getInstance().sendMessage(type, targetId, msg, {
 			onSuccess: function(message) {
 				callback(message);
