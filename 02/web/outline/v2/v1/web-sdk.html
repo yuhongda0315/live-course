@@ -1,0 +1,315 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>集成 WebSDK · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="app-server.html" />
+    
+    
+    <link rel="prev" href="demand.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    准备工作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    集成步骤
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="demand.html">
+            
+                <a href="demand.html">
+            
+                    
+                    需求点
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.2" data-path="web-sdk.html">
+            
+                <a href="web-sdk.html">
+            
+                    
+                    集成 WebSDK
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="app-server.html">
+            
+                <a href="app-server.html">
+            
+                    
+                    搭建 AppServer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="test.html">
+            
+                <a href="test.html">
+            
+                    
+                    联调
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >集成 WebSDK</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h3 id="&#x96C6;&#x6210;-websdk">&#x96C6;&#x6210; WebSDK</h3>
+<p>1&#x3001;&#x5F15;&#x5165; SDK <code>http://cdn.ronghub.com/RongIMLib-2.3.0.js</code></p>
+<p>2&#x3001;<a href="http://www.rongcloud.cn/docs/web_api_demo.html#init_listener" target="_blank">&#x8BBE;&#x7F6E;&#x6D88;&#x606F;&#x76D1;&#x542C;</a></p>
+<p>3&#x3001;<a href="http://www.rongcloud.cn/docs/web_api_demo.html#init_listener" target="_blank">&#x8BBE;&#x7F6E;&#x8FDE;&#x63A5;&#x72B6;&#x6001;&#x76D1;&#x542C;</a></p>
+<p>4&#x3001;<a href="http://www.rongcloud.cn/docs/web_api_demo.html#conversation_list" target="_blank">&#x83B7;&#x53D6;&#x4F1A;&#x8BDD;&#x5217;&#x8868;</a></p>
+<p>5&#x3001;&#x6E32;&#x67D3;&#x4F1A;&#x8BDD;&#x5217;&#x8868;</p>
+<p>6&#x3001;&#x4E3A;&#x4F1A;&#x8BDD;&#x5217;&#x8868;&#x7ED1;&#x5B9A; click &#x4E8B;&#x4EF6;</p>
+<p>7&#x3001;<a href="http://www.rongcloud.cn/docs/web_api_demo.html#message_history" target="_blank">&#x83B7;&#x53D6;&#x4F1A;&#x8BDD;&#x6D88;&#x606F;&#x5217;&#x8868;</a></p>
+<p>8&#x3001;&#x6E32;&#x67D3;&#x6D88;&#x606F;&#x5217;&#x8868;</p>
+<p>9&#x3001;<a href="http://www.rongcloud.cn/docs/web_api_demo.html#message_send" target="_blank">&#x53D1;&#x9001;&#x6D88;&#x606F;</a></p>
+<p>10&#x3001;&#x5237;&#x65B0;&#x4F1A;&#x8BDD;&#x5217;&#x8868;&#x3001;&#x66F4;&#x65B0;&#x6D88;&#x606F;&#x5217;&#x8868;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="demand.html" class="navigation navigation-prev " aria-label="Previous page: 需求点">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="app-server.html" class="navigation navigation-next " aria-label="Next page: 搭建 AppServer">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"集成 WebSDK","level":"1.2.2","depth":2,"next":{"title":"搭建 AppServer","level":"1.2.3","depth":2,"path":"app-server.md","ref":"app-server.md","articles":[]},"previous":{"title":"需求点","level":"1.2.1","depth":2,"path":"demand.md","ref":"demand.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"web-sdk.md","mtime":"2018-04-09T04:19:48.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-04-09T06:26:21.654Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
