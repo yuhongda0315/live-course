@@ -1,5 +1,6 @@
 var appkey = '8luwapkvucoil';
 
+/*工具类*/
 var tools = {
 	noop: function() {},
 	request: function(options) {
@@ -58,6 +59,197 @@ var tools = {
 
 var activeConversation = {};
 
+/*从 AppServer 获取用户信息*/
+var getUsers = function(params, callback) {
+	callback = callback || tools.noop;
+	var ids = params.ids;
+	var url = 'http://127.0.0.1:8585/batch';
+	tools.request({
+		url: url,
+		method: 'POST',
+		body: {
+			ids: ids
+		},
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		success: callback
+	});
+};
+/*
+消息发送
+*/
+var sendMessage = function(content) {
+	var type = activeConversation.type;
+	var targetId = activeConversation.target;
+	if (!type) {
+		return;
+	}
+	var msg = new RongIMLib.TextMessage({
+		content: content
+	});
+	RongIMClient.getInstance().sendMessage(type, targetId, msg, {
+		onSuccess: function(message) {
+			var senderId = message.senderUserId;
+			var ids = [senderId];
+			getUsers({ids: ids}, function(users){
+				message.sender = users[senderId];
+				renderMessage([message]);
+			});
+			refreshConversations();
+		},
+		onError: function(errorCode, message) {
+			console.log('Sent failed:' + info);
+		}
+	});
+};
+/*清除上一个会话消息*/
+var clearMessages = function() {
+	var el = tools.getDom('rong-messages');
+	el.innerHTML = '';
+};
+/*
+渲染消息列表
+*/
+var renderMessage = function(messageList) {
+	var el = tools.getDom('rong-messages');
+	var tpl = [
+		'<div class="rong-message">',
+		'<div class="rong-avatar rong-message-avatar" style="background-image: url({{this.sender.portrait}})"></div>',
+		'<div class="rong-message-content"> {{this.content.content}} </div>',
+		'</div>'
+	].join('');
+	var html = '';
+	for (var i = 0; i < messageList.length; i++) {
+		html += tools.render(messageList[i], tpl)
+	}
+	el.innerHTML += html;
+};
+
+/*
+获取会话中的历史消息
+*/
+var getHistoryMessages = function(params, callback) {
+	var instance = RongIMClient.getInstance();
+	var type = params.type;
+	var targetId = params.target;
+	var timestamp = 0;
+	var count = 20;
+	instance.getHistoryMessages(type, targetId, timestamp, count, {
+		onSuccess: function(msgList, hasMsg) {
+			var ids = [];
+			msgList.forEach(function(msg) {
+				ids.push(msg.senderUserId);
+			});
+
+			getUsers({
+				ids: ids
+			}, function(users){
+				msgList.forEach(function(message) {
+					message.sender = users[message.senderUserId];
+				});
+				callback(msgList);
+			});
+		},
+		onError: function(error) {
+			console.log("GetHistoryMessages,errorcode:" + error);
+		}
+	});
+};
+
+/*
+切换会话
+*/
+var switchConversation = function(conversation) {
+	activeConversation = conversation;
+	clearMessages();
+	getHistoryMessages(conversation, renderMessage);
+};
+
+/*
+1、获取会话列表
+2、从 App Server 获取用信息，绑定至会话列表
+*/
+var getTime = function(time) {
+	var date = new Date(time);
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	return hours + ':' + minutes;
+};
+var getConversationList = function(callback) {
+	var instance = RongIMClient.getInstance();
+	instance.getConversationList({
+		onSuccess: function(conversationList) {
+			var ids = [];
+			conversationList.forEach(function(conversation) {
+				ids.push(conversation.targetId);
+				ids.push(conversation.latestMessage.senderUserId);
+			});
+
+			getUsers({ids: ids}, function(users){
+				conversationList.forEach(function(conversation) {
+				var targetId = conversation.targetId;
+				var latestMessage = conversation.latestMessage;
+				var senderId = latestMessage.senderUserId;
+				var sentTime = latestMessage.sentTime;
+				
+				conversation.target = users[targetId];
+				conversation.sender = users[senderId];
+				conversation.time = getTime(sentTime)
+				});
+				callback(conversationList);
+			});
+
+		},
+		onError: function(error) {
+			console.error(error);
+		}
+	}, null);
+};
+var refreshConversations = function() {
+	getConversationList(function(list) {
+		var tpl = [
+			'<div class="rong-conversation" target={{this.targetId}} type={{this.conversationType}}>',
+			'<div class="rong-avatar" style="background-image: url({{this.target.portrait}})"></div>',
+			'<div class="rong-conversation-title">{{this.target.name}}</div>',
+			'<div class="rong-conversation-message">',
+			'<span class="rong-conversation-message-sender">{{this.sender.name}}:</span>',
+			'<em class="rong-conversation-message-content">{{this.latestMessage.content.content}}</em>',
+			'<span class="rong-conversation-message-senttime">{{this.time}}</span>',
+			'</div>',
+			'</div>'
+		].join('');
+		var html = '';
+		for (var i = 0; i < list.length; i++) {
+			html += tools.render(list[i], tpl)
+		}
+		var el = tools.getDom('rong-conversations');
+		el.innerHTML = html;
+
+		var addEvent = function() {
+			var els = document.getElementsByClassName('rong-conversation');
+			for (var i = 0; i < els.length; i++) {
+				var el = els[i];
+				el.onclick = function(e) {
+					var type = parseInt(this.getAttribute('type'));
+					var target = this.getAttribute('target')
+					switchConversation({
+						type: type,
+						target: target
+					});
+				};
+			}
+		};
+		setTimeout(function() {
+			addEvent();
+		});
+	});
+};
+var connectSuccess = function() {
+	refreshConversations();
+};
+
+/*连接融云服务器*/
 var connect = function(config, callback) {
 	// 初始化
 	RongIMClient.init(appkey);
@@ -100,104 +292,12 @@ var connect = function(config, callback) {
 	});
 };
 
-var getUsers = function(params, callback) {
-	callback = callback || tools.noop;
-	var ids = params.ids;
-	var url = 'http://127.0.0.1:8585/batch';
-	tools.request({
-		url: url,
-		method: 'POST',
-		body: {
-			ids: ids
-		},
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		success: callback
-	});
-};
-
-var getTime = function(time) {
-	var date = new Date(time);
-	var hours = date.getHours();
-	var minutes = date.getMinutes();
-	return hours + ':' + minutes;
-};
-
-var getConversationList = function(callback) {
-	var instance = RongIMClient.getInstance();
-	instance.getConversationList({
-		onSuccess: function(conversationList) {
-			var ids = [];
-			conversationList.forEach(function(conversation) {
-				ids.push(conversation.targetId);
-				ids.push(conversation.latestMessage.senderUserId);
-			});
-
-			getUsers({ids: ids}, function(users){
-				conversationList.forEach(function(conversation) {
-				var targetId = conversation.targetId;
-				var latestMessage = conversation.latestMessage;
-				var senderId = latestMessage.senderUserId;
-				var sentTime = latestMessage.sentTime;
-				conversation.target = users[targetId];
-				conversation.sender = users[senderId];
-				conversation.time = getTime(sentTime)
-				});
-				callback(conversationList);
-			});
-
-		},
-		onError: function(error) {
-			console.error(error);
-		}
-	}, null);
-};
-
-var refreshConversations = function() {
-	getConversationList(function(list) {
-		var tpl = [
-			'<div class="rong-conversation" target={{this.targetId}} type={{this.conversationType}}>',
-			'<div class="rong-avatar" style="background-image: url({{this.target.portrait}})"></div>',
-			'<div class="rong-conversation-title">{{this.target.name}}</div>',
-			'<div class="rong-conversation-message">',
-			'<span class="rong-conversation-message-sender">{{this.sender.name}}:</span>',
-			'<em class="rong-conversation-message-content">{{this.latestMessage.content.content}}</em>',
-			'<span class="rong-conversation-message-senttime">{{this.time}}</span>',
-			'</div>',
-			'</div>'
-		].join('');
-		var html = '';
-		for (var i = 0; i < list.length; i++) {
-			html += tools.render(list[i], tpl)
-		}
-		var el = tools.getDom('rong-conversations');
-		el.innerHTML = html;
-
-		var addEvent = function() {
-			var els = document.getElementsByClassName('rong-conversation');
-			for (var i = 0; i < els.length; i++) {
-				var el = els[i];
-				el.onclick = function(e) {
-					var type = parseInt(this.getAttribute('type'));
-					var target = this.getAttribute('target')
-					switchConversation({
-						type: type,
-						target: target
-					});
-				};
-			}
-		};
-		setTimeout(function() {
-			addEvent();
-		});
-	});
-};
-
-var connectSuccess = function() {
-	refreshConversations();
-};
-
+/*
+用户登录
+1、身份验证
+2、获取 Token
+3、连接
+*/
 var login = function(user, callback) {
 	callback = callback || tools.callback;
 	// 获取 Token
@@ -211,85 +311,7 @@ var login = function(user, callback) {
 	});
 };
 
-var sendMessage = function(content) {
-	var type = activeConversation.type;
-	var targetId = activeConversation.target;
-	if (!type) {
-		return;
-	}
-	var msg = new RongIMLib.TextMessage({
-		content: content
-	});
-	RongIMClient.getInstance().sendMessage(type, targetId, msg, {
-		onSuccess: function(message) {
-			var senderId = message.senderUserId;
-			var ids = [senderId];
-			getUsers({ids: ids}, function(users){
-				message.sender = users[senderId];
-				renderMessage([message]);
-			});
-			refreshConversations();
-		},
-		onError: function(errorCode, message) {
-			console.log('Sent failed:' + info);
-		}
-	});
-};
-
-var getHistoryMessages = function(params, callback) {
-	var instance = RongIMClient.getInstance();
-	var type = params.type;
-	var targetId = params.target;
-	var timestamp = 0;
-	var count = 20;
-	instance.getHistoryMessages(type, targetId, timestamp, count, {
-		onSuccess: function(msgList, hasMsg) {
-			var ids = [];
-			msgList.forEach(function(msg) {
-				ids.push(msg.senderUserId);
-			});
-
-			getUsers({
-				ids: ids
-			}, function(users){
-				msgList.forEach(function(message) {
-					message.sender = users[message.senderUserId];
-				});
-				callback(msgList);
-			});
-		},
-		onError: function(error) {
-			console.log("GetHistoryMessages,errorcode:" + error);
-		}
-	});
-};
-
-var clearMessages = function() {
-	var el = tools.getDom('rong-messages');
-	el.innerHTML = '';
-};
-
-var renderMessage = function(messageList) {
-	var el = tools.getDom('rong-messages');
-	var tpl = [
-		'<div class="rong-message">',
-		'<div class="rong-avatar rong-message-avatar" style="background-image: url({{this.sender.portrait}})"></div>',
-		'<div class="rong-message-content"> {{this.content.content}} </div>',
-		'</div>'
-	].join('');
-	var html = '';
-	for (var i = 0; i < messageList.length; i++) {
-		html += tools.render(messageList[i], tpl)
-	}
-	el.innerHTML += html;
-};
-
-var switchConversation = function(conversation) {
-	activeConversation = conversation;
-	clearMessages();
-	getHistoryMessages(conversation, renderMessage);
-};
-
+/*自动触发登录*/
 var user = null;
 login(user, function() {
 	var editorEl = document.getElementsByClassName('rong-editor-input')[0];
