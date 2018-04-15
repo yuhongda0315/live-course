@@ -76,6 +76,11 @@ var getUsers = function(params, callback) {
 		success: callback
 	});
 };
+
+var scroptTop = function() {
+	var messageBox = tools.getDom('rong-messages');
+	messageBox.scrollTop = messageBox.scrollHeight;
+};
 /*
 消息发送
 */
@@ -92,14 +97,18 @@ var sendMessage = function(content) {
 		onSuccess: function(message) {
 			var senderId = message.senderUserId;
 			var ids = [senderId];
-			getUsers({ids: ids}, function(users){
+			getUsers({
+				ids: ids
+			}, function(users) {
 				message.sender = users[senderId];
-				renderMessage([message]);
+				renderMessage([message], function() {
+					scroptTop();
+				});
 			});
 			refreshConversations();
 		},
 		onError: function(errorCode, message) {
-			console.log('Sent failed:' + info);
+			console.log('Sent failed:' + errorCode);
 		}
 	});
 };
@@ -111,7 +120,8 @@ var clearMessages = function() {
 /*
 渲染消息列表
 */
-var renderMessage = function(messageList) {
+var renderMessage = function(messageList, callback) {
+	callback = callback || tools.noop;
 	var el = tools.getDom('rong-messages');
 	var tpl = [
 		'<div class="rong-message">',
@@ -124,6 +134,7 @@ var renderMessage = function(messageList) {
 		html += tools.render(messageList[i], tpl)
 	}
 	el.innerHTML += html;
+	callback();
 };
 
 /*
@@ -144,7 +155,7 @@ var getHistoryMessages = function(params, callback) {
 
 			getUsers({
 				ids: ids
-			}, function(users){
+			}, function(users) {
 				msgList.forEach(function(message) {
 					message.sender = users[message.senderUserId];
 				});
@@ -186,16 +197,18 @@ var getConversationList = function(callback) {
 				ids.push(conversation.latestMessage.senderUserId);
 			});
 
-			getUsers({ids: ids}, function(users){
+			getUsers({
+				ids: ids
+			}, function(users) {
 				conversationList.forEach(function(conversation) {
-				var targetId = conversation.targetId;
-				var latestMessage = conversation.latestMessage;
-				var senderId = latestMessage.senderUserId;
-				var sentTime = latestMessage.sentTime;
-				
-				conversation.target = users[targetId];
-				conversation.sender = users[senderId];
-				conversation.time = getTime(sentTime)
+					var targetId = conversation.targetId;
+					var latestMessage = conversation.latestMessage;
+					var senderId = latestMessage.senderUserId;
+					var sentTime = latestMessage.sentTime;
+
+					conversation.target = users[targetId];
+					conversation.sender = users[senderId];
+					conversation.time = getTime(sentTime)
 				});
 				callback(conversationList);
 			});
@@ -210,7 +223,7 @@ var refreshConversations = function() {
 	getConversationList(function(list) {
 		var tpl = [
 			'<div class="rong-conversation" target={{this.targetId}} type={{this.conversationType}}>',
-			'<div class="rong-avatar" style="background-image: url({{this.target.portrait}})"></div>',
+			'<div class="rong-avatar rong-conversation-avatar" style="background-image: url({{this.target.portrait}})"></div>',
 			'<div class="rong-conversation-title">{{this.target.name}}</div>',
 			'<div class="rong-conversation-message">',
 			'<span class="rong-conversation-message-sender">{{this.sender.name}}:</span>',
@@ -260,6 +273,16 @@ var connect = function(config, callback) {
 		var targetId = message.targetId;
 		var isActive = (type == activeConversation.type && targetId == activeConversation.target);
 		refreshConversations();
+		var senderId = message.senderUserId;
+		var ids = [senderId];
+		getUsers({
+			ids: ids
+		}, function(users) {
+			message.sender = users[senderId];
+			renderMessage([message], function() {
+				scroptTop();
+			});
+		});
 	};
 	RongIMClient.setOnReceiveMessageListener({
 		onReceived: onReceived
@@ -309,20 +332,28 @@ var login = function(user, callback) {
 		url: url,
 		success: function(result) {
 			connect(result, connectSuccess);
-			callback();
+			callback(result);
 		}
 	});
 };
 
-/*自动触发登录*/
-var user = null;
-login(user, function() {
+/*
+
+*/
+
+var addEvent = function(){
 	var editorEl = document.getElementsByClassName('rong-editor-input')[0];
 	editorEl.addEventListener('keyup', function(e) {
 		e.preventDefault();
 		var isEnter = (e.keyCode == 13);
 		if (isEnter) {
 			var content = editorEl.value;
+			content = content.replace(/\n/, '');
+			var isEmpty = (content == '')
+			if (isEmpty) {
+				content = '';
+				return;
+			}
 			sendMessage(content);
 			setTimeout(function() {
 				editorEl.value = '';
@@ -330,4 +361,19 @@ login(user, function() {
 		}
 		return this.value;
 	}, false);
+};
+
+var renderUser = function(user){
+	user = user || {};
+	var tpl = '<div class="rong-avatar rong-userinfo" style="background-image: url({{this.portrait}});"></div>'
+	var html = tools.render(user, tpl);
+	var header = tools.getDom('rong-header');
+	header.innerHTML = html;
+};
+
+/*自动触发登录*/
+var user = null;
+login(user, function(user) {
+	addEvent();
+	renderUser(user);
 });

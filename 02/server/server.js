@@ -7,6 +7,7 @@ var RongSDK = RongCloudSDK({
 	secret: 'y0icysjl4h3LWz'
 });
 
+
 var app = express()
 app.use(bodyParser.json());
 
@@ -17,17 +18,22 @@ app.all('*', (req, res, next) => {
 	next();
 });
 
+var Cache = {};
+
 app.get('/get_token/:id', (req, res) => {
 	var params = req.params || {};
 	var id = params.id || 'User_A';
-	var user = {
-		id: id,
-		name: 'Maritn',
-		portrait: 'http://7xogjk.com1.z0.glb.clouddn.com/IuDkFprSQ1493563384017406982'
-	};
+	var user = Cache[id] ;
+
+	if (!user) {
+		user = getUser();
+
+	}
+	user.id = id;
 
 	var User = RongSDK.User;
 	User.register(user).then(result => {
+		result.portrait = user.portrait;
 		var result = JSON.stringify(result);
 		res.end(result);
 	}, error => {
@@ -39,36 +45,20 @@ var getUser = () => {
 	var nameList = "梦琪忆柳之桃慕青问兰尔岚元香初夏沛菡傲珊曼文乐菱痴珊恨玉惜文香寒新柔语蓉海安夜蓉涵柏水桃醉蓝春儿语琴从彤傲晴语兰又菱碧彤元霜怜梦紫寒妙彤曼易南莲紫翠雨寒易烟如萱若南寻真晓亦向珊慕灵以蕊寻雁映易雪柳孤岚笑霜海云";
 	var nameSize = nameList.length;
 	var portraits = [
-		'https://rongcloud-image.cn.ronghub.com/11b5634363a0d64375.gif?e=2147483647&token=livk5rb3__JZjCtEiMxXpQ8QscLxbNLehwhHySnX:KXWfwD_8iNCsvyOtDFjviEMVAZI=',
+		'https://rongcloud-image.cn.ronghub.com/fa33294a358e7f2abf.gif?e=2147483647&token=CddrKW5AbOMQaDRwc3ReDNvo3-sL_SO1fSUBKV3H:z2QkbpEqUEMrOPrJtV3tBP4gQYo=',
 		'http://7xogjk.com1.z0.glb.clouddn.com/01fac54313ad977d6e.gif',
-		'http://7xogjk.com1.z0.glb.clouddn.com/Uz6Sw8GXx1480657489396230957',
-		'http://7xogjk.com1.z0.glb.clouddn.com/Uz6Sw8GXx1480657489396230957',
-		'http://7xogjk.com1.z0.glb.clouddn.com/FrHE6oexmBYCQu1mArslDmSXSpjt',
-		'http://7xogjk.com1.z0.glb.clouddn.com/N5zNVXSAL1468383079822445801',
-		'http://7xogjk.com1.z0.glb.clouddn.com/Fh4fnCvnO_SOwpuMPYGBnzBwrx6A',
-		'http://7xogjk.com1.z0.glb.clouddn.com/FhNGcU1t9fqeY8RNU9YLxB_uC0CW',
-		'http://7xogjk.com1.z0.glb.clouddn.com/VvnIxO8tV1466543937625991943',
-		'http://7xogjk.com1.z0.glb.clouddn.com/8ydpAQGf31466593526225904053',
-		'http://7xogjk.com1.z0.glb.clouddn.com/J7XqKPint1465875994761060059',
-		'http://7xogjk.com1.z0.glb.clouddn.com/FuN4PYLWgl5-dc7kjMrVTaGrmvWy',
-		'http://7xogjk.com1.z0.glb.clouddn.com/E1IoyL5Pj1474883226760875000',
-		'http://7xogjk.com1.z0.glb.clouddn.com/Fs9ncOF6YdUFm41MLaaW3Le9kCUi',
-		'http://7xogjk.com1.z0.glb.clouddn.com/40qHVS1mE1466594886916926758',
-		'http://7xogjk.com1.z0.glb.clouddn.com/FnD5DPrQ4zEuxdfoQph3I_GbREXT',
-		'http://7xogjk.com1.z0.glb.clouddn.com/sIY8bjZD41488598710906941895',
-		'http://7xogjk.com1.z0.glb.clouddn.com/uQkgVavwI1487366848354141846',
-		'http://7xogjk.com1.z0.glb.clouddn.com/6LTeWiKdO1466687530424623047',
-		'http://7xogjk.com1.z0.glb.clouddn.com/dF4rToXYc1480663399693231201',
-		'http://7xogjk.com1.z0.glb.clouddn.com/RhkYq7by11466683458989444092',
-		'http://7xogjk.com1.z0.glb.clouddn.com/RhkYq7by11466683458989444092',
-		'http://7xogjk.com1.z0.glb.clouddn.com/dCbdBuAEY1466683558456824951',
-		'http://7xogjk.com1.z0.glb.clouddn.com/1wqmFbjA11487060547968788086',
-		'http://7xogjk.com1.z0.glb.clouddn.com/Frvl4caHWNcn3HirhUH-4VUfeZh5',
-		'http://7xogjk.com1.z0.glb.clouddn.com/IuDkFprSQ1493563384017406982',
-		'http://7xogjk.com1.z0.glb.clouddn.com/FoT92qisblAl4-fNyRFhsMvx_1Re',
-		'http://7xogjk.com1.z0.glb.clouddn.com/jxngOLzx81490001167151286133',
-		'http://7xogjk.com1.z0.glb.clouddn.com/jAR4Mcond1466728471015025146',
-		'http://7xogjk.com1.z0.glb.clouddn.com/Uz6Sw8GXx1466575289048886963'
+		'https://rongcloud-image.cn.ronghub.com/2fcdba4205860a63fb.gif?e=2147483647&token=livk5rb3__JZjCtEiMxXpQ8QscLxbNLehwhHySnX:m7S0ADf1E-d2bIG3E0vuiZJSH_w=',
+		'http://oqekw07cj.bkt.clouddn.com/9da99c4255a24baba1.gif',
+		'http://2f.zol-img.com.cn/product/172_100x75/267/cepP02EKJTV6.gif',
+		'https://fsprodrcx.cn.ronghub.com/lVMs15VSLeR47CzXlVMs15VbxLGVULo2/timg.gif',
+		'https://fsprodrcx.cn.ronghub.com/FmUv4RZmLtL72i_hFmUv4RYqrWMWbCI7/timg+%284%29.gif',
+		'https://fsprodrcx.cn.ronghub.com/vJiff7ybnkxRJ59_vJiff7zADyO8gW0a/timg+%285%29.gif',
+		'https://fsprodrcx.cn.ronghub.com/5FJuo-RTb5AJ7W6j5FJuo-Rf_-_kU162/timg+%283%29.gif',
+		'https://fsprodrcx.cn.ronghub.com/Jx-MkScejaLKoIyRJx-MkScT89YnHp6U/timg+%282%29.gif',
+		'https://fsprodrcx.cn.ronghub.com/pQjyn6UJ86xIt_KfpQjyn6UGM_6lDaO-/timg+%281%29.gif',
+		'https://fsprodrcx.cn.ronghub.com/1T1xVdU_cGY4gnFV1T1xVdUFyRPVM_4N/test.gif',
+		'https://fsprodrcx.cn.ronghub.com/yn2CV8p8g2QnwoJXyn2CV8ppkNXKdrNS/1512691986120.gif',
+		'https://fsprodrcx.cn.ronghub.com/B0qmIAdLpxPq9aYgB0qmIAdV5acHSrhp/timg.jpeg'
 	];
 
 	var portraitSize = portraits.length;
@@ -113,8 +103,6 @@ var fastUniq = function(ary) {
 	};
 	return r;
 };
-
-var Cache = {};
 
 app.post('/batch', (req, res) => {
 	var body = req.body || {};

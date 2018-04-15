@@ -17,6 +17,7 @@ body{
 	background-color: #1A2837;
 	background-size: contain;
 	box-sizing: border-box;
+	width: 100%;
 }
 
 .rong-conversations,.rong-messages{
@@ -39,15 +40,27 @@ body{
 }
 .rong-avatar{
 	background: url(http://7xogjk.com1.z0.glb.clouddn.com/Uz6Sw8GXx1466575289048886963) no-repeat;
-	background-size: contain;
+	background-size: cover;
+    background-position: center;
 	height: 50px;
 	width: 50px;
-	float: left;
 	border-radius: 25px;
 	margin-right: 5px;
 	position: relative;
 	z-index: 10;
 }
+.rong-userinfo{
+	float: right;
+    height: 35px;
+    width: 35px;
+    margin-top: 8px;
+    margin-right: 14px;
+    border: 1px solid #FFF;
+}
+.rong-conversation-avatar{
+	float: left;
+}
+
 .rong-conversation-message{
     line-height: 38px;
     position: relative;
@@ -92,6 +105,7 @@ body{
 .rong-message-avatar{
 	height: 30px;
 	width: 30px;
+	float: left;
 }
 .rong-message-content{
 	background: #333;
