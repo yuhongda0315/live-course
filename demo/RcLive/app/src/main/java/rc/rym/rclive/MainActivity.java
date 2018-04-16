@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Group getGroupInfo(String groupId) {
                 Log.d(App.TAG, "getGroupInfo groupId = " + groupId);
-                Group group = new Group(groupId, "我们是一家人", Uri.parse("http://7xs9j5.com1.z0.glb.clouddn.com/rcdemo/icon_3.jpg"));
+                Group group = new Group(groupId, "我们是一家人", Uri.parse("http://7xs9j5.com1.z0.glb.clouddn.com/rcdemo/icon_6.jpg"));
                 return group;
             }
         }, true);
