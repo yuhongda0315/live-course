@@ -1,0 +1,150 @@
+body{
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+}
+
+.rong-main{
+	margin: 50px auto;
+	height: 500px;
+	width: 700px;
+	border: 1px solid #1A2837;
+}
+
+.rong-header{
+	height: 50px;
+	background: url(logo.png) 16px no-repeat; 
+	background-color: #1A2837;
+	background-size: contain;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.rong-conversations,.rong-messages{
+	height: 450px;
+}
+
+.rong-conversations{
+	border-right: 1px solid #CCC;
+	width: 260px;
+	float: left;
+	overflow-y: auto;
+}
+
+.rong-conversation{
+	height: 60px;
+	box-sizing: border-box;
+    padding: 4px;
+    border-bottom: 1px solid #CCC;
+    cursor: pointer;
+}
+.rong-avatar{
+	background: url(http://7xogjk.com1.z0.glb.clouddn.com/Uz6Sw8GXx1466575289048886963) no-repeat;
+	background-size: cover;
+    background-position: center;
+	height: 50px;
+	width: 50px;
+	border-radius: 25px;
+	margin-right: 5px;
+	position: relative;
+	z-index: 10;
+}
+.rong-userinfo{
+	float: right;
+    height: 35px;
+    width: 35px;
+    margin-top: 8px;
+    margin-right: 14px;
+    border: 1px solid #FFF;
+}
+.rong-conversation-avatar{
+	float: left;
+}
+
+.rong-conversation-message{
+    line-height: 38px;
+    position: relative;
+}
+.rong-conversation-message-sender{
+	float: left;
+}
+.rong-conversation-message-content{
+	display: inline-block;
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+	width: 60%;
+}
+.rong-conversation-message-senttime{
+	position: absolute;
+	top: -27px;
+	right: 0;
+}
+
+.rong-chat{
+	margin-left: 260px;
+    padding: 10px;
+    position: relative;
+    box-sizing: border-box;
+    height: 100%;
+}
+.rong-messages{
+	padding: 5px;
+	height: 400px;
+	box-sizing: border-box;
+	overflow-y: auto;
+	position: absolute;
+	top: 0;
+	bottom: 50px;
+	width: 98%;
+}
+.rong-message{
+	position: relative;
+	margin-bottom: 15px;
+}
+.rong-message-avatar{
+	height: 30px;
+	width: 30px;
+	float: left;
+}
+.rong-message-content{
+	background: #333;
+    margin-left: 9px;
+    min-height: 30px;
+    line-height: 20px;
+    border-radius: 10px;
+    color: #FFF;
+    padding: 5px 10px 0 8px;
+    box-sizing: border-box;
+    display: inline-block;
+    max-width: 80%;
+}
+.rong-message-content::after{
+	content: "";
+	width: 0;
+	display: block;
+	position: absolute;
+	border-right: 16px solid;
+	border-bottom: 16px solid;
+	border-left: 5px solid;
+	border-color: transparent #333 transparent transparent;
+	top: 13px;
+    left: 29px;
+}
+
+.rong-editor{
+	height: 50px;
+    position: absolute;
+    width: 95%;
+    bottom: 50px;
+    border-top: 1px solid #CCC;
+}
+.rong-editor-input{
+	resize: none;
+	width: 90%;
+	border: none;
+	outline: none;
+	padding: 1em 0.3em 0 0.3em;
+	margin: 5px 12px 0 20px;
+	box-sizing: border-box;
+}
