@@ -128,6 +128,11 @@ app.post('/batch', (req, res) => {
 	res.end(result);
 });
 
+app.get('/0', (req, res) => {
+	var result = JSON.stringify({});
+	res.end(result);
+});
+
 var port = 8585;
 app.listen(port);
 console.log('listener port : %d', port);

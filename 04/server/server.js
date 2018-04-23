@@ -18,6 +18,7 @@ app.all('*', (req, res, next) => {
 	next();
 });
 
+/***************************User start***********************************/
 var Cache = {};
 
 var getUser = () => {
@@ -128,8 +129,9 @@ app.post('/user/batch', (req, res) => {
 	res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});
 	res.end(result);
 });
+/***************************User end***********************************/
 
-/***************************Group***********************************/
+/***************************Group start***********************************/
 var Group = RongSDK.Group;
 var Message = RongSDK.Message;
 var GroupMessage = Message.Group;
@@ -156,7 +158,12 @@ app.post('/group/create', (req, res) => {
 		members: members
 	};
 
-	groupCache[id] = group;
+	// 缓存在内存
+	groupCache[id] = {
+		id: id,
+		name: name,
+		members: members
+	};
 
 	var creator = body.creator;
 	
@@ -171,6 +178,7 @@ app.post('/group/create', (req, res) => {
 		};
 
 		GroupMessage.send(message).then(result => {
+			console.log(result);
 			res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});
 			res.end(JSON.stringify({
 				code: 200,
@@ -191,7 +199,6 @@ app.post('/group/create', (req, res) => {
 		res.end(JSON.stringify(result));
 	});
 });
-
 
 var nameSeq = 1;
 var getGroup = () => {
@@ -233,13 +240,12 @@ var getGroup = () => {
 	};
 };
 
-
 app.post('/group/batch', (req, res) => {
 	var body = req.body || {};
 	var ids = fastUniq(body.ids);
 	var result = {};
 	ids.forEach((id) => {
-		var group = Cache[id];
+		var group = groupCache[id] || Cache[id];
 		if (!group) {
 			group = getGroup();
 			Cache[id] = group;
@@ -255,13 +261,16 @@ app.get('/group/:id', (req, res) => {
 	var id = req.params.id;
 	var members = [];
 	for(var i = 0; i < 12; i++){
-		members.push(getUser());
+		var user = getUser();
+		user.id = 'User' + (i+1);
+		members.push(user);
 	}
 	var group = groupCache[id] || {id: id, name: 'GroupName', members: members};
 	res.writeHead(200, {'Content-Type': 'application/json;charset=utf-8'});
 	res.end(JSON.stringify(group));
 });
 
+/***************************Group end***********************************/
 var port = 8585;
 app.listen(port);
 console.log('listener port : %d', port);

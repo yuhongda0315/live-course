@@ -322,14 +322,16 @@ var connect = function(config, callback) {
 		refreshConversations();
 		var senderId = message.senderUserId;
 		var ids = [senderId];
-		getUsers({
-			ids: ids
-		}, function(users) {
-			message.sender = users[senderId];
-			renderMessage([message], function() {
-				scroptTop();
+		if (isActive) {
+			getUsers({
+				ids: ids
+			}, function(users) {
+				message.sender = users[senderId];
+				renderMessage([message], function() {
+					scroptTop();
+				});
 			});
-		});
+		}
 	};
 	RongIMClient.setOnReceiveMessageListener({
 		onReceived: onReceived
@@ -392,7 +394,7 @@ var renderUser = function(user){
 	header.innerHTML = html;
 };
 
-
+/**********************Group start******************************/
 var Group = {
 	create: function(){
 		var search = location.search;
@@ -400,8 +402,8 @@ var Group = {
 
 		var url = 'http://127.0.0.1:8585/group/create';
 		var members = [
-						'UserA', 'UserB', 'UserC', 'UserD', 'UserE', 'UserF',
-						'UserG', 'UserH', 'UserI', 'UserJ', 'UserK', 'UserL'
+						'User1','User2','User3','User4','User5','User6','User7',
+						'User8','User9','User10','User11','User12'
 						];
 		var name = '乌托邦';
 		tools.request({
@@ -464,7 +466,7 @@ var getGroup = function(params){
 				'{{ for( var index in this.members ){ }} ',
 				'<li class="rong-member">',
 					'<div class="rong-avatar rong-member-avatar" style="background-image: url({{this.members[index].portrait}});"></div>',
-					'<div class="rong-member-name">{{this.members[index].name}}</div>',
+					'<div class="rong-member-name">{{this.members[index].id}}</div>',
 				'</li>',
 				'{{ } }}',
 			'</ul>'
@@ -492,6 +494,8 @@ setTimeout(function(){
 		}
 	};
 });
+
+/**********************Group End******************************/
 
 /*
 用户登录==============================================

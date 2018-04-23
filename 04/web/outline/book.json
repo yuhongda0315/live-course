@@ -1,0 +1,5 @@
+{
+	"title": "live-course",
+	"plugins": ["expandable-chapters","sectionx", "search", "search-plus",
+				"-sharing", "-fontsettings"]
+}
