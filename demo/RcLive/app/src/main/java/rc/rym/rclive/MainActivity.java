@@ -20,7 +20,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import io.rong.imkit.DefaultExtensionModule;
+import io.rong.imkit.IExtensionModule;
+import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
@@ -29,6 +33,7 @@ import io.rong.imlib.model.UserInfo;
 import rc.rym.rclive.fragment.ContactFragment;
 import rc.rym.rclive.fragment.DiscoveryFragment;
 import rc.rym.rclive.fragment.MeFragment;
+import rc.rym.rclive.ui.MyExtensionModule;
 import rc.rym.rclive.utils.DbManager;
 import rc.rym.rclive.utils.HttpRequest;
 import rc.rym.rclive.utils.User;
@@ -124,6 +129,25 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+        setMyExtensionModule();
+    }
+
+    public void setMyExtensionModule() {
+        List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
+        IExtensionModule defaultModule = null;
+        if (moduleList != null) {
+            for (IExtensionModule module : moduleList) {
+                if (module instanceof DefaultExtensionModule) {
+                    defaultModule = module;
+                    break;
+                }
+            }
+            if (defaultModule != null) {
+                RongExtensionManager.getInstance().unregisterExtensionModule(defaultModule);
+                RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
+            }
+        }
     }
 
     @Override
