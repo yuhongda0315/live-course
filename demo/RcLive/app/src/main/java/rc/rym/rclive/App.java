@@ -11,6 +11,7 @@ import io.rong.imkit.IExtensionModule;
 import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
 import io.rong.push.RongPushClient;
+import rc.rym.rclive.message.ChatroomGift;
 import rc.rym.rclive.message.CustomizeMessage;
 import rc.rym.rclive.message.CustomizeMessageItemProvider;
 import rc.rym.rclive.ui.MyExtensionModule;
@@ -26,10 +27,11 @@ public class App extends Application {
         super.onCreate();
         Stetho.initializeWithDefaults(this);
         AppUtil.init(this);
-        RongIM.init(this, "8brlm7ufrg9e3");
+        RongIM.init(this, "n19jmcy59ocx9");
         RongIM.registerMessageType(CustomizeMessage.class);
+        RongIM.registerMessageType(ChatroomGift.class);
         RongIM.registerMessageTemplate(new CustomizeMessageItemProvider());
-//        RongIM.getInstance().registerConversationTemplate(new MyPrivateConversationProvider());
+        RongIM.getInstance().registerConversationTemplate(new MyPrivateConversationProvider());
 //        RongPushClient.registerMiPush(this, miAppId, miAppKey);
 
         RongIM.getInstance().enableNewComingMessageIcon(true);  // 显示新消息提醒

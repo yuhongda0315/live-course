@@ -18,6 +18,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import rc.rym.rclive.App;
 import rc.rym.rclive.R;
+import rc.rym.rclive.message.ChatroomGift;
 import rc.rym.rclive.message.CustomizeMessage;
 
 public class DiscoveryFragment extends Fragment {
@@ -57,6 +58,24 @@ public class DiscoveryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(App.TAG, "观看直播");
+                ChatroomGift giftMsg = new ChatroomGift();
+                giftMsg.setId("火箭");
+                giftMsg.setNumber(1);
+                giftMsg.setTotal(5);
+                Message msg = Message.obtain("User_D", Conversation.ConversationType.PRIVATE, giftMsg);
+                RongIM.getInstance().sendMessage(msg, null, null, new IRongCallback.ISendMessageCallback() {
+                    @Override
+                    public void onAttached(Message message) {
+                    }
+
+                    @Override
+                    public void onSuccess(Message message) {
+                    }
+
+                    @Override
+                    public void onError(Message message, RongIMClient.ErrorCode errorCode) {
+                    }
+                });
             }
         });
         return root;

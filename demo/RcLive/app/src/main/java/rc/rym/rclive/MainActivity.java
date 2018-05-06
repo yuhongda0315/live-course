@@ -27,8 +27,10 @@ import io.rong.imkit.IExtensionModule;
 import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
+import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 import rc.rym.rclive.fragment.ContactFragment;
 import rc.rym.rclive.fragment.DiscoveryFragment;
@@ -48,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initView();
         dbManager = new DbManager(this);
+
+        RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
+            @Override
+            public boolean onReceived(Message message, int i) {
+                Log.d("RYM_DG", "obj = " + message.getObjectName());
+                return false;
+            }
+        });
 
         // 设置用户信息提供者。
         RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {

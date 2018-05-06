@@ -15,7 +15,7 @@ import io.rong.imkit.widget.provider.IContainerItemProvider;
 import io.rong.imlib.model.Message;
 import rc.rym.rclive.R;
 
-@ProviderTag(messageContent = CustomizeMessage.class, showPortrait = true, centerInHorizontal = true)
+@ProviderTag(messageContent = CustomizeMessage.class, showPortrait = false, centerInHorizontal = true)
 public class CustomizeMessageItemProvider extends IContainerItemProvider.MessageProvider<CustomizeMessage> {
 
     class ViewHolder {

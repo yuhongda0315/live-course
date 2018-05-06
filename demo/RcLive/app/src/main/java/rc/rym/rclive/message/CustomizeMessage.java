@@ -12,7 +12,10 @@ import io.rong.imlib.model.MessageContent;
 
 @MessageTag(value = "app:custom", flag = MessageTag.ISCOUNTED)
 public class CustomizeMessage extends MessageContent {
-    private String mContent;
+    private String content;
+    private int count;
+    private double time;
+    private boolean isVIP;
 
     public CustomizeMessage() {
     }
@@ -28,7 +31,13 @@ public class CustomizeMessage extends MessageContent {
         try {
             JSONObject jsonObj = new JSONObject(jsonStr);
             if (jsonObj.has("mContent"))
-                mContent = jsonObj.optString("mContent");
+                content = jsonObj.optString("mContent");
+            if (jsonObj.has("mCount"))
+                count = jsonObj.optInt("mCount");
+            if (jsonObj.has("mTime"))
+                time = jsonObj.optDouble("mTime");
+            if (jsonObj.has("isVIP"))
+                isVIP = jsonObj.optBoolean("isVIP");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -38,7 +47,10 @@ public class CustomizeMessage extends MessageContent {
     public byte[] encode() {
         JSONObject jsonObj = new JSONObject();
         try {
-            jsonObj.put("mContent", mContent);
+            jsonObj.put("mContent", content);
+            jsonObj.put("mCount", count);
+            jsonObj.put("mTime", time);
+            jsonObj.put("isVIP", isVIP);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -58,11 +70,17 @@ public class CustomizeMessage extends MessageContent {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mContent);
+        dest.writeString(content);
+        dest.writeInt(count);
+        dest.writeDouble(time);
+        dest.writeByte((byte) (isVIP ? 1 : 0));
     }
 
     protected CustomizeMessage(Parcel in) {
-        mContent = in.readString();
+        content = in.readString();
+        count = in.readInt();
+        time = in.readDouble();
+        isVIP = in.readByte() != 0;
     }
 
     public static final Creator<CustomizeMessage> CREATOR = new Creator<CustomizeMessage>() {
@@ -78,11 +96,32 @@ public class CustomizeMessage extends MessageContent {
     };
 
     public String getContent() {
-        return mContent;
+        return content;
     }
 
     public void setContent(String content) {
-        mContent = content;
+        content = content;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+    public double getTime() {
+        return time;
+    }
+
+    public void setTime(double time) {
+        this.time = time;
+    }
+    public boolean getIsVIP() {
+        return isVIP;
+    }
+
+    public void setIsVIP(boolean isVIP) {
+        this.isVIP = isVIP;
+    }
 }
