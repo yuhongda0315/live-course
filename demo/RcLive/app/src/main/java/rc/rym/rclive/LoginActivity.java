@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.stetho.Stetho;
+
 import org.json.JSONObject;
 
 import io.rong.imkit.RongIM;

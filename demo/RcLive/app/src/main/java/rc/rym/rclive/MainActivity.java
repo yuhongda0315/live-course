@@ -20,15 +20,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import io.rong.imkit.DefaultExtensionModule;
+import io.rong.imkit.IExtensionModule;
+import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
+import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 import rc.rym.rclive.fragment.ContactFragment;
 import rc.rym.rclive.fragment.DiscoveryFragment;
 import rc.rym.rclive.fragment.MeFragment;
+import rc.rym.rclive.ui.MyExtensionModule;
 import rc.rym.rclive.utils.DbManager;
 import rc.rym.rclive.utils.HttpRequest;
 import rc.rym.rclive.utils.User;
@@ -43,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initView();
         dbManager = new DbManager(this);
+
+        RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
+            @Override
+            public boolean onReceived(Message message, int i) {
+                Log.d("RYM_DG", "obj = " + message.getObjectName());
+                return false;
+            }
+        });
 
         // 设置用户信息提供者。
         RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
@@ -80,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Group getGroupInfo(String groupId) {
                 Log.d(App.TAG, "getGroupInfo groupId = " + groupId);
-                Group group = new Group(groupId, "我们是一家人", Uri.parse("http://7xs9j5.com1.z0.glb.clouddn.com/rcdemo/icon_3.jpg"));
+                Group group = new Group(groupId, "我们是一家人", Uri.parse("http://7xs9j5.com1.z0.glb.clouddn.com/rcdemo/icon_6.jpg"));
                 return group;
             }
         }, true);
@@ -124,6 +139,25 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+        setMyExtensionModule();
+    }
+
+    public void setMyExtensionModule() {
+        List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
+        IExtensionModule defaultModule = null;
+        if (moduleList != null) {
+            for (IExtensionModule module : moduleList) {
+                if (module instanceof DefaultExtensionModule) {
+                    defaultModule = module;
+                    break;
+                }
+            }
+            if (defaultModule != null) {
+                RongExtensionManager.getInstance().unregisterExtensionModule(defaultModule);
+                RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
+            }
+        }
     }
 
     @Override

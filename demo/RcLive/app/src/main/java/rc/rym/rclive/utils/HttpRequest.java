@@ -46,19 +46,19 @@ public class HttpRequest {
             String token = null;
             switch (userId) {
                 case "User_A":
-                    token = "/1042teZCgK7LmSrdJPyQISNp6+KPs4PEobRGeLUpGYiDIv4tnbyCqco4kuPNdMOVKH/aYbTqn+j1039XQoWtg==";
+                    token = "LFW5Xkb7BQVBoV3D1ogsixlnoI21V6c1PKnZA8dRbYN9jRGAAQenRj+SQ2g7bC5iRwWwB3gk9I4eBYjVy8xgbg==";
                     break;
                 case "User_B":
-                    token = "JkOw4QpPX9yi6vZTKgsvboSNp6+KPs4PEobRGeLUpGYiDIv4tnbyCrYaw9WeGBDbVKH/aYbTqn/7NZJDluCrIg==";
+                    token = "HVNVS1PSZpr7ivgLqL7wLh98SqO+r0C2XA+OgdNJq5V/+G66ceAxHTWnoeoGA9D9WtXdsGLlqSN/Wy74uaWtlA==";
                     break;
                 case "User_C":
-                    token = "OWFm3j0O/Rp8goKqIzh4Aj7ehB7EizrQscjx0HJEIPuTvQqx4EdsmF0AIohCyPZyWbm4rzz+r9F+S9YAIzr2Qg==";
+                    token = "k57kw86d1fe9py9EhkiOtB98SqO+r0C2XA+OgdNJq5V/+G66ceAxHZU54zfa9Dkm5dThxpJbS2A44b5mWz2vqQ==";
                     break;
                 case "User_D":
-                    token = "BrX+eJA2JYeCbppkXFXLSl6j7VuCnlLIyuk9hpP3vEILjzoAJkW9S2SZI/leuo+nDbbRqO7+vYD6x4s8setO5w==";
+                    token = "eyYsoPjCstvC7XJNhSv+BRlnoI21V6c1PKnZA8dRbYN9jRGAAQenRmmWhyzdhkxdPXmkJY4YsTIQwLlTgDCbXQ==";
                     break;
                 case "User_E":
-                    token = "05qswqqxJvRTZdbMsd1JYISNp6+KPs4PEobRGeLUpGYiDIv4tnbyCr216BnTGo79VKH/aYbTqn/fsqx0x0/Buw==";
+                    token = "JhFWPnAgqUtcXNkla1elJRlnoI21V6c1PKnZA8dRbYN9jRGAAQenRt5OM5cv8UaDPXmkJY4YsTJVMsp1q9VgBQ==";
                     break;
                 default:
                     Assert.fail(App.TAG + ": HttpRequest 使用本地假数据，只支持 User_A, User_B, User_C, User_D, User_E 五个用户！");
