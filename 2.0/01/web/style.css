@@ -69,11 +69,11 @@ body{
 	float: left;
 }
 .rong-conversation-message-content{
-	display: inline-block;
-	text-overflow:ellipsis;
-	overflow:hidden;
-	white-space:nowrap;
-	width: 60%;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+  width: 100px;
+  float: left;
 }
 .rong-conversation-message-senttime{
 	position: absolute;

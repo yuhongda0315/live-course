@@ -16,7 +16,7 @@
 
 3、为会话列表绑定 click 事件
 
-4、[获取会话消息列表](http://www.rongcloud.cn/docs/web_api_demo.html#message_history)
+4、[获取消息列表](http://www.rongcloud.cn/docs/web_api_demo.html#message_history)
 
 5、渲染消息列表
 

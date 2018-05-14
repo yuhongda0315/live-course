@@ -1,3 +1,4 @@
+//设置 AppKey
 var appkey = '8luwapkvucoil';
 
 /*工具类*/

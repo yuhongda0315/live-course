@@ -1,7 +1,12 @@
 var express = require('express')
 var bodyParser = require('body-parser');
+
+// 引入 ServerSDK
 var RongCloudSDK = require('rongcloud-sdk');
 
+/*
+	配置 appkey、secret
+*/
 var RongSDK = RongCloudSDK({
 	appkey: '8luwapkvucoil',
 	secret: 'y0icysjl4h3LWz'
@@ -95,6 +100,7 @@ app.post('/login', (req, res) => {
 		user = getUser();
 
 	}
+	user.name = id;
 	user.id = id;
 
 	var User = RongSDK.User;
@@ -120,6 +126,7 @@ app.post('/batch', (req, res) => {
 		var user = Cache[id];
 		if (!user) {
 			user = getUser();
+			user.name = id;
 			Cache[id] = user;
 		}
 		result[id] = user;
