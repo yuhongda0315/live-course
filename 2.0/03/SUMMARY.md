@@ -1,0 +1,49 @@
+# Summary
+* [文档导航](README.md)
+* [架构介绍](structure.md)
+* 用户
+  * [注册](user/register.md)
+  * [登录](user/login.md)
+  * [注销](user/logout.md)
+  * [获取用户](user/get.md)
+  * [设置昵称](user/nickname.md)
+  * [设置头像](user/portrait.md)
+  * [查找用户](user/find.md)
+  * [批量获取用户](user/batch.md)
+  * [获取融云 Token](user/token.md)
+  * 验证码
+    * [检查](user/check.md)
+    * [发送](user/send.md)
+    * [验证](user/verify.md)
+  * 密码找回
+    * [手机号](user/reset-pwd.md)
+    * [原密码](user/change-pwd.md)
+  * 黑名单
+    * [添加](user/blacklist-add.md)
+    * [删除](user/blacklist-remove.md)
+    * [获取列表](user/blacklist-get.md)
+
+* 好友
+  * [获取列表](friend/all.md)
+  * [添加好友](friend/invite.md)
+  * [删除好友](friend/delete.md)
+  * [设置备注](friend/set-display-name.md)
+  * [好友信息](friend/profile.md)
+  * [忽略加好友请求](friend/ignore.md)
+  * [同意加好友请求](friend/agree.md)
+
+* 群组
+  * [创建](group/create.md)
+  * [加入](group/join.md)
+  * [踢人](group/kick.md)
+  * [添加](group/add.md)
+  * [退出](group/quit.md)
+  * [转让群主](group/transfer.md)
+  * [群组改名](group/rename.md)
+  * [解散群组](group/dismiss.md)
+  * [发布公告](group/set-bulletin.md)
+  * [设置头像](group/set-portrait-uri.md)
+  * [设置群名片](group/set-display-name.md)
+  * [获取群信息](group/get.md)
+  * [获取群成员](group/get-members.md)
+  * [获取用户信息](group/all.md)
