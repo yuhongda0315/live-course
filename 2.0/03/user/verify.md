@@ -20,8 +20,11 @@
 
 **请求成功**
 
-```js
+```json
 {
-  "code": 200
+  "code": 200,
+  "result":{
+    "verification_token": "c6b84711-5a71-11e8-a171-f71d37f1bd69"
+  }
 }
 ```

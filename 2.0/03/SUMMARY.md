@@ -46,4 +46,5 @@
   * [设置群名片](group/set-display-name.md)
   * [获取群信息](group/get.md)
   * [获取群成员](group/get-members.md)
-  * [获取用户信息](group/all.md)
+  * [获取群组列表](group/all.md)
+

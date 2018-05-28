@@ -7,8 +7,8 @@
 | 参数        |  类型    | 必填  | 说明              
 | :----------|:-------- |:-----|:----------------
 | region     |  string  | 是   | 国际电话区号
-| phone      |  array   | 是   | 手机号
-| password   |  number  | 是   | 密码，6 到 20 个字节，不能包含空格
+| phone      |  string   | 是   | 手机号
+| password   |  string  | 是   | 密码，6 到 20 个字节，不能包含空格
 
 ```json
 {
