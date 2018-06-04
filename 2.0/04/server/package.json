@@ -1,0 +1,21 @@
+{
+  "name": "live-server",
+  "version": "1.0.0",
+  "description": "live server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "rongcloud",
+    "live",
+    "server"
+  ],
+  "author": "doubao",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "rongcloud-sdk": "^3.0.0"
+  }
+}
